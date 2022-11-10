@@ -35,7 +35,7 @@
   networking.hostName = "dev";
 
   # Set your time zone.
-  time.timeZone = "America/Los_Angeles";
+  time.timeZone = "Asia/Tokyo";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -59,7 +59,7 @@
 
     desktopManager = {
       xterm.enable = false;
-      wallpaper.mode = "fill";
+      wallpaper.mode = "scale";
     };
 
     displayManager = {
@@ -69,7 +69,7 @@
       # AARCH64: For now, on Apple Silicon, we must manually set the
       # display resolution. This is a known issue with VMware Fusion.
       sessionCommands = ''
-        ${pkgs.xorg.xset}/bin/xset r rate 200 40
+        ${pkgs.xorg.xset}/bin/xset r rate 250 40
       '';
     };
 
@@ -104,7 +104,7 @@
     # For hypervisors that support auto-resizing, this script forces it.
     # I've noticed not everyone listens to the udev events so this is a hack.
     (writeShellScriptBin "xrandr-auto" ''
-      xrandr --output Virtual-1 --auto
+      xrandr --output Virtual-1 --mode 2560x1600
     '')
   ] ++ lib.optionals (currentSystemName == "vm-aarch64") [
     # This is needed for the vmware user tools clipboard to work.
@@ -123,7 +123,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.passwordAuthentication = true;
+  # services.openssh.passwordAuthentication = true;
   services.openssh.permitRootLogin = "no";
 
   # Disable the firewall since we're in a VM and we want to make it
