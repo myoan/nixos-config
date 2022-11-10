@@ -23,6 +23,7 @@ let sources = import ../../nix/sources.nix; in {
     pkgs.tree
     pkgs.watch
     pkgs.zathura
+    pkgs.gh
 
     pkgs.go
     pkgs.gopls
@@ -140,10 +141,10 @@ let sources = import ../../nix/sources.nix; in {
 
   programs.git = {
     enable = true;
-    userName = "Mitchell Hashimoto";
-    userEmail = "mitchell.hashimoto@gmail.com";
+    userName = "Motoki Yoan";
+    userEmail = "motoki.yoan@gmail.com";
     signing = {
-      key = "523D5DC389D273BC";
+      key = "B1CADB53D7E4E63A";
       signByDefault = true;
     };
     aliases = {
@@ -155,7 +156,7 @@ let sources = import ../../nix/sources.nix; in {
       color.ui = true;
       core.askPass = ""; # needs to be empty to use terminal for ask pass
       credential.helper = "store"; # want to make this more secure
-      github.user = "mitchellh";
+      github.user = "myoan";
       push.default = "tracking";
       init.defaultBranch = "main";
     };
