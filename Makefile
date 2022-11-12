@@ -106,3 +106,6 @@ vm/switch:
 # Build an ISO image
 iso/nixos.iso:
 	cd iso; ./build.sh
+
+build:
+	sudo nixos-rebuild switch --flake ".#${NIXNAME}"
