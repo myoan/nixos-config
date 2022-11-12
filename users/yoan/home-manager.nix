@@ -152,6 +152,12 @@ let sources = import ../../nix/sources.nix; in {
     aliases = {
       prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
       root = "rev-parse --show-toplevel";
+      ci = "commit";
+      co = "checkout";
+      st = "status";
+      br = "branch";
+      sw = "switch";
+      rs = "restore";
     };
     extraConfig = {
       branch.autosetuprebase = "always";
