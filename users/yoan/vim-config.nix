@@ -16,6 +16,11 @@ if filereadable(vim_misc_path)
   execute "source " . vim_misc_path
 endif
 
+set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<,eol:$
+nmap <C-a> ^
+nmap <C-e> $
+nmap <Esc><Esc> :nohlsearch<Enter>
+
 lua <<EOF
 ---------------------------------------------------------------------
 -- Add our custom treesitter parsers

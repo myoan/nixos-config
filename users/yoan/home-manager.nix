@@ -84,6 +84,8 @@ let sources = import ../../nix/sources.nix; in {
       gp = "git push";
       gs = "git status";
       gt = "git tag";
+      vi = "nvim";
+      vim = "nvim";
     };
   };
 
