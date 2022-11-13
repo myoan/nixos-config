@@ -19,7 +19,10 @@ endif
 set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<,eol:$
 nmap <C-a> ^
 nmap <C-e> $
+nmap <C-j> <C-w>
 nmap <Esc><Esc> :nohlsearch<Enter>
+nmap <C-p> <cmd>Telescope find_files<Enter>
+nmap <C-t><C-f> <cmd>Telescope live_grep<Enter>
 
 lua <<EOF
 ---------------------------------------------------------------------
