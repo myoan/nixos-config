@@ -33,11 +33,6 @@ let sources = import ../../nix/sources.nix; in rec {
       src = sources.vim-pgsql;
     };
 
-    vim-tla = vimUtils.buildVimPlugin {
-      name = "tla.vim";
-      src = sources.vim-tla;
-    };
-
     vim-zig = vimUtils.buildVimPlugin {
       name = "zig.vim";
       src = sources.vim-zig;
@@ -51,16 +46,6 @@ let sources = import ../../nix/sources.nix; in rec {
     pigeon = vimUtils.buildVimPlugin {
       name = "pigeon.vim";
       src = sources.vim-pigeon;
-    };
-
-    AfterColors = vimUtils.buildVimPlugin {
-      name = "AfterColors";
-      src = pkgs.fetchFromGitHub {
-        owner = "vim-scripts";
-        repo = "AfterColors.vim";
-        rev = "9936c26afbc35e6f92275e3f314a735b54ba1aaf";
-        sha256 = "0j76g83zlxyikc41gn1gaj7pszr37m7xzl8i9wkfk6ylhcmjp2xi";
-      };
     };
 
     vim-nord = vimUtils.buildVimPlugin {
