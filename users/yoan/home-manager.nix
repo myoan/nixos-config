@@ -24,13 +24,13 @@ let sources = import ../../nix/sources.nix; in {
     pkgs.watch
     pkgs.zathura
     pkgs.gh
+    pkgs.ghq
+    pkgs.nix-prefetch-github
+    pkgs.rnix-lsp
 
     pkgs.go
     pkgs.gopls
     pkgs.zigpkgs.master
-
-    pkgs.tlaplusToolbox
-    pkgs.tetex
   ];
 
   #---------------------------------------------------------------------
@@ -160,6 +160,7 @@ let sources = import ../../nix/sources.nix; in {
       rs = "restore";
     };
     extraConfig = {
+      core.editor = "nvim";
       branch.autosetuprebase = "always";
       color.ui = true;
       core.askPass = ""; # needs to be empty to use terminal for ask pass
@@ -167,13 +168,15 @@ let sources = import ../../nix/sources.nix; in {
       github.user = "myoan";
       push.default = "tracking";
       init.defaultBranch = "main";
+      ghq.vcs = "git";
+      ghq.root = "~/code";
     };
   };
 
   programs.go = {
     enable = true;
     goPath = "code/go";
-    goPrivate = [ "github.com/mitchellh" "github.com/hashicorp" "rfc822.mx" ];
+    goPrivate = [ "github.com/myoan" ];
   };
 
   programs.tmux = {
@@ -201,6 +204,7 @@ let sources = import ../../nix/sources.nix; in {
 
     settings = {
       env.TERM = "xterm-256color";
+      font.size = 8;
 
       key_bindings = [
         { key = "K"; mods = "Command"; chars = "ClearHistory"; }
@@ -208,7 +212,6 @@ let sources = import ../../nix/sources.nix; in {
         { key = "C"; mods = "Command"; action = "Copy"; }
         { key = "Key0"; mods = "Command"; action = "ResetFontSize"; }
         { key = "Equals"; mods = "Command"; action = "IncreaseFontSize"; }
-        { key = "Subtract"; mods = "Command"; action = "DecreaseFontSize"; }
       ];
     };
   };
@@ -246,10 +249,8 @@ let sources = import ../../nix/sources.nix; in {
       customVim.vim-glsl
       customVim.vim-misc
       customVim.vim-pgsql
-      customVim.vim-tla
       customVim.vim-zig
       customVim.pigeon
-      customVim.AfterColors
 
       customVim.vim-nord
       customVim.nvim-comment
@@ -268,6 +269,7 @@ let sources = import ../../nix/sources.nix; in {
       vimPlugins.vim-markdown
       vimPlugins.vim-nix
       vimPlugins.typescript-vim
+      vimPlugins.toggleterm-nvim
     ];
 
     extraConfig = (import ./vim-config.nix) { inherit sources; };
