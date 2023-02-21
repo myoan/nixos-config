@@ -1,42 +1,38 @@
 # Credit: https://github.com/wegank/nixos-config/tree/main/hardware/parallels-unfree
-{ stdenv
+{ autoPatchelfHook
+, fetchurl
+, dbus-glib
+, gawk
+, glib
+, kernel
 , lib
+, libsOnly ? false
 , makeWrapper
 , p7zip
-, gawk
-, util-linux
-, xorg
-, glib
-, dbus-glib
-, zlib
-, kernel
-, libsOnly ? false
-, fetchurl
-, undmg
 , perl
-, autoPatchelfHook
+, stdenv
+, xorg
+, undmg
+, util-linux
+, zlib
 }:
 
 stdenv.mkDerivation rec {
-  version = "18.0.3-53079";
+  version = "18.1.1-53328";
   pname = "prl-tools";
 
-  # We download the full distribution to extract prl-tools-lin.iso from
-  # => ${dmg}/Parallels\ Desktop.app/Contents/Resources/Tools/prl-tools-lin.iso
   src = fetchurl {
-    url = "https://download.parallels.com/desktop/v${lib.versions.major version}/${version}/ParallelsDesktop-${version}.dmg";
-    sha256 = "sha256-z9B2nhcTSZr3L30fa54zYi6WnonQ2wezHoneT2tQWAc=";
+    url = "https://download.parallels.com/desktop/v18/${version}/ParallelsDesktop-${version}.dmg";
+    sha256 = "sha256-Vw9i7Diki+hKODeosxfCY5bL/UOfwgzeCC6+QmWfIZw=";
   };
 
-  patches = [./prl-tools-6.0.patch];
-
   hardeningDisable = [ "pic" "format" ];
-
+  
   nativeBuildInputs = [ p7zip undmg perl autoPatchelfHook ]
     ++ lib.optionals (!libsOnly) [ makeWrapper ] ++ kernel.moduleBuildDependencies;
 
   buildInputs = with xorg; [ libXrandr libXext libX11 libXcomposite libXinerama ]
-    ++ lib.optionals (!libsOnly) [ libXi glib dbus-glib zlib ];
+    ++ lib.optionals (!libsOnly) [ libXi glib dbus-glib zlib ];  
 
   runtimeDependencies = [ glib xorg.libXrandr ];
 
@@ -59,12 +55,12 @@ stdenv.mkDerivation rec {
     if test -z "$libsOnly"; then
       ( # kernel modules
         cd kmods
-        make -f Makefile.kmods \
-          KSRC=$kernelDir/source \
-          HEADERS_CHECK_DIR=$kernelDir/source \
-          KERNEL_DIR=$kernelDir/build \
-          SRC=$kernelDir/build \
-          KVER=$kernelVersion
+	make -f Makefile.kmods \
+	  KSRC=$kernelDir/source \
+	  HEADERS_CHECK_DIR=$kernelDir/source \
+	  KERNEL_DIR=$kernelDir/build \
+	  SRC=$kernelDir/build \
+	  KVER=$kernelVersion
       )
     fi
   '';
@@ -94,13 +90,13 @@ stdenv.mkDerivation rec {
         wrapProgram $out/sbin/prlfsmountd \
           --prefix PATH ':' "$scriptPath"
         for i in lib/libPrl*.0.0; do
-          cp $i $out/lib
-          ln -s $out/$i $out/''${i%.0.0}
-        done
-        mkdir -p $out/share/man/man8
-        install -Dm644 ../mount.prl_fs.8 $out/share/man/man8
-        mkdir -p $out/etc/pm/sleep.d
-        install -Dm644 ../99prltoolsd-hibernate $out/etc/pm/sleep.d
+	  cp $i $out/lib
+	  ln -s $out/$i $out/''${i%.0.0}
+	done
+	mkdir -p $out/share/man/man8
+	install -Dm644 ../mount.prl_fs.8 $out/share/man/man8
+	mkdir -p $out/etc/pm/sleep.d
+	install -Dm644 ../99prltoolsd-hibernate $out/etc/pm/sleep.d
       fi
     )
   '';
@@ -112,3 +108,4 @@ stdenv.mkDerivation rec {
     license = licenses.unfree;
   };
 }
+
